@@ -1,0 +1,49 @@
+package mypackage;
+
+class DataStore {
+    // 🔥 Static instance (Only one instance will exist)
+    private static DataStore instance = null;
+
+    private String data = "Hello from DataStore!"; // Sample data
+
+    // Private constructor prevents direct instantiation
+    private DataStore() {}
+
+    // ✅ Public method to get the single instance
+    public static DataStore getInstance() {
+        if (instance == null) {
+            instance = new DataStore();
+        }
+        return instance;
+    }
+
+    // Getter method to retrieve data
+    public String getData() {
+        return data;
+    }
+
+    // Setter method to update data
+    public void setData(String data) {
+        this.data = data;
+    }
+}
+
+public class SingletonExample {
+    public static void main(String[] args) {
+        // 🔥 Get the singleton instance
+        DataStore dataStore1 = DataStore.getInstance();
+        
+        // ✅ Access initial data
+        System.out.println("Stored Data: " + dataStore1.getData());
+
+        // ✅ Modify data through one instance
+        dataStore1.setData("Updated Data!");
+
+        // ✅ Access data using another reference
+        DataStore dataStore2 = DataStore.getInstance();
+        System.out.println("Updated Data: " + dataStore2.getData());
+
+        // ✅ Verify that both references point to the same instance
+        System.out.println("Are both instances the same? " + (dataStore1 == dataStore2));
+    }
+}
