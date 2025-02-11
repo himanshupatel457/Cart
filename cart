@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #cart-items {
+            margin-top: 20px;
+        }
+        .cart-item {
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Your Cart</h1>
+    <div id="cart-items"></div>
+    <h3>Total: ₹<span id="total-price">0</span></h3>
+    <button onclick="checkout()">Checkout</button>
+    <script>
+        function loadCart() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            const cartItems = document.getElementById("cart-items");
+            const totalPrice = document.getElementById("total-price");
+
+            cartItems.innerHTML = "";
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                total += item.price * item.quantity;
+                cartItems.innerHTML += `<div class="cart-item">${item.name} - ₹${item.price} x ${item.quantity}
+                    <button onclick="removeFromCart(${index})">Remove</button></div>`;
+            });
+
+            totalPrice.textContent = total;
+        }
+
+        function removeFromCart(index) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart.splice(index, 1);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            loadCart();
+        }
+
+        function checkout() {
+            alert("Order Placed Successfully!");
+            localStorage.removeItem("cart");
+            loadCart();
+        }
+
+        window.onload = loadCart;
+    </script>
+</body>
+</html>
